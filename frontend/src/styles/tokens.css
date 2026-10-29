@@ -1,0 +1,88 @@
+/* Design tokens of the approved mockup set (design/mockups/styles.css :root).
+   Mobile-first: the base values are the phone values (from 390px); wider
+   screens step up at the design's breakpoints (720px and 1100px). */
+:root {
+  color-scheme: dark;
+
+  /* colour */
+  --ground: oklch(0.19 0.025 255);
+  --surface: oklch(0.25 0.028 255);
+  --raised: oklch(0.31 0.03 255);
+  --room-base: oklch(0.29 0.03 255);
+  --ink: oklch(0.95 0.01 90);
+  --ink-2: oklch(0.84 0.015 255);
+  --muted: oklch(0.68 0.02 255);
+  --line: oklch(0.36 0.03 255);
+  --line-strong: oklch(0.52 0.03 255);
+  --accent: oklch(0.84 0.15 85);
+  --accent-hover: oklch(0.9 0.15 85);
+  --accent-press: oklch(0.77 0.15 85);
+  --on-accent: oklch(0.19 0.025 255);
+  --alarm: oklch(0.66 0.2 28);
+  --alarm-soft: oklch(0.8 0.12 28);
+  --on-alarm: oklch(0.14 0.02 255);
+  --ok: oklch(0.8 0.1 160);
+  --s1: oklch(0.8 0.1 175);
+  --s2: oklch(0.8 0.1 215);
+  --s3: oklch(0.78 0.1 260);
+  --s4: oklch(0.8 0.1 310);
+  --s5: oklch(0.82 0.1 350);
+  --s6: oklch(0.82 0.1 140);
+
+  /* type */
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-text: "Public Sans", system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: "Azeret Mono", ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace;
+  --fs-label: 12px;
+  --fs-small: 14px;
+  --fs-body: 16px;
+  --fs-lead: 22px;
+  --fs-figure: 32px;
+  --fs-clock: 56px;
+  --track-label: 0.14em;
+  --w-text: 400;
+  --w-display: 800;
+
+  /* grid + spacing */
+  --cols: 12;
+  --gutter: 24px;
+  --page-pad: 16px;
+  --page-max: 1440px;
+  --measure: 62ch;
+  --s-1: 8px;
+  --s-2: 12px;
+  --s-3: 16px;
+  --s-4: 24px;
+  --s-5: 32px;
+  --s-6: 48px;
+
+  /* shape */
+  --r-s: 8px;
+  --r-m: 12px;
+  --r-l: 20px;
+  --r-xl: 32px;
+  --r-pill: 999px;
+  --shadow-float: 0 12px 32px oklch(0.1 0.03 255 / 0.6);
+
+  /* motion */
+  --dur-fast: 160ms;
+  --dur-mid: 240ms;
+  --dur-glow: 600ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* tablet and laptop */
+@media (min-width: 721px) {
+  :root {
+    --page-pad: 48px;
+    --fs-figure: 36px;
+    --fs-clock: 64px;
+  }
+}
+
+/* wide laptop and desktop */
+@media (min-width: 1101px) {
+  :root {
+    --fs-clock: 72px;
+  }
+}
