@@ -445,20 +445,14 @@ export function AutomationEditor({ automation, devices, rooms, ready, onSaved }:
                     step="any"
                     value={draft.value}
                     invalid={Boolean(shown("value"))}
+                    aria-describedby="f-unit"
                     onChange={(e) => update({ value: e.target.value }, "value")}
                   />
-                  <label className="sr-only" htmlFor="f-unit">
-                    Einheit
-                  </label>
-                  <Select
-                    id="f-unit"
-                    style={{ minWidth: 84 }}
-                    disabled
-                    title="Die Einheit ergibt sich aus dem Sensor"
-                    options={[{ value: METRIC_UNITS[sensorMetric], label: METRIC_UNITS[sensorMetric] }]}
-                    value={METRIC_UNITS[sensorMetric]}
-                    onChange={() => undefined}
-                  />
+                  {/* The unit follows from the chosen sensor, so it is shown as text next to the
+                      number: an 84 px unit dropdown left the number a sliver in the 1280 px column. */}
+                  <span id="f-unit" className="small muted" title="Die Einheit ergibt sich aus dem Sensor">
+                    {METRIC_UNITS[sensorMetric]}
+                  </span>
                 </InputUnit>
               </Field>
             </EditorLine>
