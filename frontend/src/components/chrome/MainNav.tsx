@@ -16,8 +16,8 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { to: "/", label: "Übersicht", isCurrent: (p) => p === "/" || p.startsWith("/raum/") },
   { to: "/verlauf", label: "Verlauf", isCurrent: (p) => p === "/verlauf" },
   { to: "/automationen", label: "Automationen", isCurrent: (p) => p === "/automationen" },
-  { to: "/warnungen", label: "Alarme", isCurrent: (p) => p === "/warnungen" },
-  { to: "/einstellungen", label: "Simulation", isCurrent: (p) => p === "/einstellungen" },
+  { to: "/alarme", label: "Alarme", isCurrent: (p) => p === "/alarme" },
+  { to: "/simulation", label: "Simulation", isCurrent: (p) => p === "/simulation" },
 ];
 
 export interface MainNavProps {

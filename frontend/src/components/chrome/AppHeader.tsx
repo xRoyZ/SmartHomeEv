@@ -38,7 +38,7 @@ export function openAlertCount(state: SimState | null): number {
   return state.alerts.filter((a) => a.active && !a.acknowledged).length;
 }
 
-/** `.badge-alarm`: count of open alerts, links to /warnungen, pulses once when the count rises. */
+/** `.badge-alarm`: count of open alerts, links to /alarme, pulses once when the count rises. */
 function AlertBadge({ count, known }: { count: number; known: boolean }) {
   const [prev, setPrev] = useState(count);
   const [pulse, setPulse] = useState(0);
@@ -51,7 +51,7 @@ function AlertBadge({ count, known }: { count: number; known: boolean }) {
     <Link
       key={pulse}
       className="badge-alarm"
-      to="/warnungen"
+      to="/alarme"
       data-zero={count === 0 ? "true" : "false"}
       aria-label={label}
       data-testid="alert-badge"

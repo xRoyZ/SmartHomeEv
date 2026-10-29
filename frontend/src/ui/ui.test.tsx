@@ -78,7 +78,7 @@ describe("header", () => {
     expect(header.querySelector(".tag-sim")).toHaveTextContent("Simulation");
     expect(header.querySelector(".clock-chip")).toHaveTextContent("Mi 07:42 · 60x");
     const badge = screen.getByTestId("alert-badge");
-    expect(badge).toHaveAttribute("href", "/warnungen");
+    expect(badge).toHaveAttribute("href", "/alarme");
     expect(badge).toHaveAttribute("data-zero", "false");
     expect(badge).toHaveTextContent("Alarme 2");
     expect(screen.getByTestId("connection-state")).toHaveTextContent("Live");
@@ -112,7 +112,7 @@ describe("header", () => {
     renderHeader(sampleState(), true, "/raum/kueche");
     const nav = screen.getByRole("navigation", { name: "Hauptnavigation" });
     const links = within(nav).getAllByRole("link");
-    expect(links.map((l) => l.getAttribute("href"))).toEqual(["/", "/verlauf", "/automationen", "/warnungen", "/einstellungen"]);
+    expect(links.map((l) => l.getAttribute("href"))).toEqual(["/", "/verlauf", "/automationen", "/alarme", "/simulation"]);
     expect(within(nav).getByRole("link", { name: "Übersicht" })).toHaveAttribute("aria-current", "page");
   });
 

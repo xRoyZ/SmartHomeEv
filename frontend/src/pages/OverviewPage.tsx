@@ -162,7 +162,7 @@ function ActiveAlerts({ alerts }: { alerts: Alert[] }) {
     <section className="side-block" data-od-id="active-alerts" aria-label="Aktive Alarme">
       <div className="row row--between">
         <p className="label">Aktive Alarme</p>
-        <TextLink to="/warnungen">Alle Alarme</TextLink>
+        <TextLink to="/alarme">Alle Alarme</TextLink>
       </div>
       {shown.length > 0 ? (
         <AlertList>

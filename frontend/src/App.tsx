@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { AppFrame } from "./layout/AppFrame";
 import { AlertsPage } from "./pages/AlertsPage";
 import { AutomationsPage } from "./pages/AutomationsPage";
@@ -30,7 +30,7 @@ function NotFoundPage() {
   );
 }
 
-/** The route table of the contract, every route inside AppFrame. */
+/** The route table, every route inside AppFrame. */
 export function AppRoutes() {
   return (
     <Routes>
@@ -38,9 +38,12 @@ export function AppRoutes() {
         <Route index element={<OverviewPage />} />
         <Route path="raum/:roomId" element={<RoomPage />} />
         <Route path="automationen" element={<AutomationsPage />} />
-        <Route path="warnungen" element={<AlertsPage />} />
+        <Route path="alarme" element={<AlertsPage />} />
         <Route path="verlauf" element={<HistoryPage />} />
-        <Route path="einstellungen" element={<SettingsPage />} />
+        <Route path="simulation" element={<SettingsPage />} />
+        {/* The earlier paths of these two screens stay reachable as redirects. */}
+        <Route path="warnungen" element={<Navigate to="/alarme" replace />} />
+        <Route path="einstellungen" element={<Navigate to="/simulation" replace />} />
         {Gallery && (
           <Route
             path="dev/galerie"
