@@ -179,6 +179,33 @@ describe("components", () => {
     expect(screen.getByText("Gerät ausgefallen")).toBeInTheDocument();
   });
 
+  it("switch keeps its accessible name in both states and renders no text inside its track", () => {
+    function Harness() {
+      const [on, setOn] = useState(true);
+      return <Switch label="Heizung aus, wenn Fenster offen aktiv" checked={on} onChange={setOn} />;
+    }
+    render(<Harness />);
+    const sw = screen.getByRole("switch", { name: "Heizung aus, wenn Fenster offen aktiv" });
+    expect(sw).toHaveAttribute("aria-checked", "true");
+    // No text node inside the button: a label there would be drawn in the track colour.
+    expect(sw.textContent).toBe("");
+    fireEvent.click(sw);
+    const off = screen.getByRole("switch", { name: "Heizung aus, wenn Fenster offen aktiv" });
+    expect(off).toHaveAttribute("aria-checked", "false");
+    expect(off.textContent).toBe("");
+    fireEvent.click(off);
+    expect(screen.getByRole("switch", { name: "Heizung aus, wenn Fenster offen aktiv" })).toHaveAttribute("aria-checked", "true");
+  });
+
+  it("switch state text follows the state outside the track", () => {
+    const { rerender } = render(<Switch label="Stehlampe" checked={false} onChange={() => undefined} whenOn="an" whenOff="aus" />);
+    expect(screen.getByText("aus")).toBeInTheDocument();
+    expect(screen.queryByText("an")).toBeNull();
+    rerender(<Switch label="Stehlampe" checked onChange={() => undefined} whenOn="an" whenOff="aus" />);
+    expect(screen.getByText("an")).toBeInTheDocument();
+    expect(screen.getByRole("switch", { name: "Stehlampe" }).textContent).toBe("");
+  });
+
   it("disabled chips ignore clicks", () => {
     let calls = 0;
     render(
