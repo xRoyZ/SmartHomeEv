@@ -199,7 +199,9 @@ export function LightControl({ device, room, onStatus }: ControlProps<LightDevic
     if (value > 0 && !on) update.on = true;
     void cmd.send(update, `Licht ${room.name}: ${value === 0 ? "aus" : `${value} %`}`);
   });
-  const brightness = range.dragValue ?? committed;
+  // An off light gives no light: readout, thumb and fill all show 0 % until it is
+  // switched on or dragged, even while the device keeps its stored brightness.
+  const brightness = range.dragValue ?? (on ? committed : 0);
 
   const toggle = () => {
     if (on) {
@@ -231,7 +233,7 @@ export function LightControl({ device, room, onStatus }: ControlProps<LightDevic
         <span className="label">Helligkeit</span>
         <output className="figure num">
           <span key={`${on}-${brightness}`} className="tick">
-            {on || range.dragValue !== null ? brightness : 0}
+            {brightness}
           </span>
           <small>%</small>
         </output>
