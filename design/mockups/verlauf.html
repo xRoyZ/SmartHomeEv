@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="screen-route" content="/verlauf" />
+    <meta name="theme-color" content="#141a27" />
+    <title>Verlauf – Haus Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- serves: AC-09, AC-10, AC-15, AC-17 -->
+    <header class="site-header" data-od-id="site-header">
+      <div class="site-header__inner page-pad">
+        <a class="brand" href="index.html">Haus Simulator</a>
+        <span class="tag-sim">Simulation</span>
+        <nav class="nav" aria-label="Hauptnavigation">
+          <a href="index.html">Übersicht</a>
+          <a href="verlauf.html" aria-current="page">Verlauf</a>
+          <a href="automationen.html">Automationen</a>
+          <a href="alarme.html">Alarme</a>
+          <a href="simulation.html">Simulation</a>
+        </nav>
+        <div class="header-end">
+          <span class="clock-chip"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/clock" aria-hidden="true"
+              ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                ><circle cx="12" cy="12" r="10"
+                /><path d="M12 6v6l4 2"
+              /></g
+            ></svg>Mi 07:42 · 60x</span>
+          <a class="badge-alarm" href="alarme.html"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/bell-ring" aria-hidden="true"
+              ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"
+            /></svg>Alarme <span data-alert-count>2</span
+          ></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-pad">
+        <section class="page-head" data-od-id="history-head">
+          <h1 class="page-title">Wie das Haus den letzten Tag erlebt hat</h1>
+          <p class="page-intro">Jede Kurve zeigt simulierte Werte der vergangenen 24 Stunden. Wähle eine Größe und einen Raum, die gelbe Linie markiert den Moment der Simulationsuhr.</p>
+        </section>
+
+        <section class="region stack" style="padding-top:var(--s-5)" data-od-id="history-filters" aria-label="Filter für den Verlauf">
+          <div class="stack-sm">
+            <span class="label" id="lbl-metric">Größe</span>
+            <div class="seg seg--ink" data-seg data-metrics role="group" aria-labelledby="lbl-metric">
+              <button type="button" data-value="temp" aria-pressed="true">Temperatur</button>
+              <button type="button" data-value="hum" aria-pressed="false">Feuchte</button>
+              <button type="button" data-value="co2" aria-pressed="false">CO2</button>
+              <button type="button" data-value="energy" aria-pressed="false">Verbrauch vs. Solar</button>
+            </div>
+          </div>
+          <div class="stack-sm">
+            <span class="label" id="lbl-room">Raum</span>
+            <div class="chips" data-seg data-rooms role="group" aria-labelledby="lbl-room">
+              <button type="button" class="chip" data-value="all" aria-pressed="true">Alle Räume</button>
+              <button type="button" class="chip" data-value="wohn" aria-pressed="false">Wohnzimmer</button>
+              <button type="button" class="chip" data-value="kueche" aria-pressed="false">Küche</button>
+              <button type="button" class="chip" data-value="schlaf" aria-pressed="false">Schlafzimmer</button>
+              <button type="button" class="chip" data-value="kinder" aria-pressed="false">Kinderzimmer</button>
+              <button type="button" class="chip" data-value="bad" aria-pressed="false">Bad</button>
+              <button type="button" class="chip" data-value="flur" aria-pressed="false">Flur</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="region" style="padding-top:var(--s-6)" data-od-id="history-chart">
+          <div class="row row--between" style="margin-bottom:var(--s-4); align-items:baseline">
+            <h2 style="font-size:var(--fs-lead)" data-chart-title>Raumtemperaturen gegen Außen</h2>
+            <p class="label">Letzte 24 Stunden (Simulationszeit)</p>
+          </div>
+
+          <!-- temperature -->
+          <div data-chart="temp">
+            <div class="chart" role="img" aria-label="Raumtemperaturen gegenüber der Außentemperatur, letzte 24 Stunden Simulationszeit">
+              <div class="chart__y"
+                ><span style="--p:86.8">6°</span
+                ><span style="--p:70.5">10°</span
+                ><span style="--p:54">14°</span
+                ><span style="--p:37.8">18°</span
+                ><span style="--p:21.3">22°</span
+              ></div>
+              <div class="chart__plot">
+                <svg viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
+                  <line class="gl" x1="0" x2="1000" y1="347" y2="347"
+                  /><line class="gl" x1="0" x2="1000" y1="282" y2="282"
+                  /><line class="gl" x1="0" x2="1000" y1="216" y2="216"
+                  /><line class="gl" x1="0" x2="1000" y1="151" y2="151"
+                  /><line class="gl" x1="0" x2="1000" y1="85" y2="85"/>
+                  <path class="area fill-out" d="M0,339 L83,306 L167,257 L250,224 L333,233 L417,265 L500,298 L583,314 L667,322 L750,331 L833,341 L917,347 L1000,344 L1000,400 L0,400 Z"/>
+                  <polyline class="ln c-out dash" points="0,339 83,306 167,257 250,224 333,233 417,265 500,298 583,314 667,322 750,331 833,341 917,347 1000,344"/>
+                  <polyline class="ln c1" data-room="wohn" points="0,111 83,106 167,99 250,94 333,93 417,90 500,96 583,103 667,113 750,123 833,127 917,121 1000,103"/>
+                  <polyline class="ln c2" data-room="kueche" points="0,120 83,114 167,108 250,104 333,102 417,96 500,92 583,104 667,118 750,128 833,132 917,126 1000,106"/>
+                  <polyline class="ln c3" data-room="schlaf" points="0,138 83,136 167,132 250,130 333,130 417,134 500,140 583,146 667,138 750,132 833,134 917,138 1000,126"/>
+                  <polyline class="ln c4" data-room="kinder" points="0,128 83,124 167,118 250,114 333,114 417,118 500,112 583,108 667,114 750,122 833,126 917,124 1000,116"/>
+                  <polyline class="ln c5" data-room="bad" points="0,118 83,116 167,112 250,110 333,110 417,104 500,86 583,72 667,92 750,110 833,112 917,100 1000,80"/>
+                  <polyline class="ln c6" data-room="flur" points="0,148 83,146 167,142 250,138 333,138 417,142 500,148 583,154 667,150 750,146 833,142 917,140 1000,136"/>
+                  <line class="now" x1="1000" x2="1000" y1="0" y2="400"/>
+                </svg>
+                <span class="now-tag">Jetzt 07:42</span>
+              </div>
+              <div class="chart__x"><span>Di 07:42</span><span>Di 13:42</span><span>Di 19:42</span><span>Mi 01:42</span><span>Mi 07:42</span></div>
+            </div>
+            <div class="legend legend--row" style="margin-top:var(--s-4)">
+              <p class="legend__item c1" data-room="wohn">Wohnzimmer<b class="num">21,0°</b></p>
+              <p class="legend__item c2" data-room="kueche">Küche<b class="num">20,8°</b></p>
+              <p class="legend__item c3" data-room="schlaf">Schlafzimmer<b class="num">19,5°</b></p>
+              <p class="legend__item c4" data-room="kinder">Kinderzimmer<b class="num">20,1°</b></p>
+              <p class="legend__item c5" data-room="bad">Bad<b class="num">22,4°</b></p>
+              <p class="legend__item c6" data-room="flur">Flur<b class="num">18,9°</b></p>
+              <p class="legend__item legend__item--dash c-out">Außen<b class="num">6,2°</b></p>
+            </div>
+          </div>
+
+          <!-- humidity -->
+          <div data-chart="hum" hidden>
+            <div class="chart" role="img" aria-label="Luftfeuchte je Raum, letzte 24 Stunden Simulationszeit">
+              <div class="chart__y"><span style="--p:100">30 %</span><span style="--p:83.3">40 %</span><span style="--p:50">60 %</span><span style="--p:16.7">80 %</span></div>
+              <div class="chart__plot">
+                <svg viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
+                  <line class="gl" x1="0" x2="1000" y1="333" y2="333"/><line class="gl" x1="0" x2="1000" y1="200" y2="200"/><line class="gl" x1="0" x2="1000" y1="67" y2="67"/>
+                  <polyline class="ln c1" data-room="wohn" points="0,270 83,266 167,260 250,256 333,256 417,250 500,246 583,240 667,250 750,260 833,262 917,258 1000,280"/>
+                  <polyline class="ln c2" data-room="kueche" points="0,280 83,270 167,240 250,200 333,230 417,260 500,200 583,160 667,230 750,270 833,280 917,230 1000,260"/>
+                  <polyline class="ln c3" data-room="schlaf" points="0,226 83,226 167,230 250,236 333,240 417,240 500,236 583,230 667,226 750,220 833,216 917,226 1000,240"/>
+                  <polyline class="ln c4" data-room="kinder" points="0,240 83,236 167,230 250,236 333,240 417,236 500,230 583,226 667,232 750,230 833,222 917,218 1000,226"/>
+                  <polyline class="ln c5" data-room="bad" points="0,250 83,246 167,244 250,244 333,244 417,240 500,236 583,140 667,110 750,220 833,232 917,120 1000,80"/>
+                  <polyline class="ln c6" data-room="flur" points="0,290 83,288 167,286 250,282 333,282 417,280 500,280 583,284 667,288 750,290 833,290 917,286 1000,280"/>
+                  <line class="now" x1="1000" x2="1000" y1="0" y2="400"/>
+                </svg>
+                <span class="now-tag">Jetzt 07:42</span>
+              </div>
+              <div class="chart__x"><span>Di 07:42</span><span>Di 13:42</span><span>Di 19:42</span><span>Mi 01:42</span><span>Mi 07:42</span></div>
+            </div>
+            <div class="legend legend--row" style="margin-top:var(--s-4)">
+              <p class="legend__item c1" data-room="wohn">Wohnzimmer<b class="num">48 %</b></p>
+              <p class="legend__item c2" data-room="kueche">Küche<b class="num">51 %</b></p>
+              <p class="legend__item c3" data-room="schlaf">Schlafzimmer<b class="num">54 %</b></p>
+              <p class="legend__item c4" data-room="kinder">Kinderzimmer<b class="num">56 %</b></p>
+              <p class="legend__item c5" data-room="bad">Bad<b class="num">78 %</b></p>
+              <p class="legend__item c6" data-room="flur">Flur<b class="num">48 %</b></p>
+            </div>
+          </div>
+
+          <!-- CO2 -->
+          <div data-chart="co2" hidden>
+            <div class="chart" role="img" aria-label="CO2-Konzentration je Raum mit Grenzwert 1.200 ppm, letzte 24 Stunden Simulationszeit">
+              <div class="chart__y"><span style="--p:100">400</span><span style="--p:66.7">800</span><span style="--p:33.3">1.200</span><span style="--p:8.3">1.500</span></div>
+              <div class="chart__plot">
+                <svg viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
+                  <line class="gl" x1="0" x2="1000" y1="267" y2="267"/><line class="gl" x1="0" x2="1000" y1="33" y2="33"/>
+                  <line class="limit" x1="0" x2="1000" y1="133" y2="133"/>
+                  <polyline class="ln c1" data-room="wohn" points="0,340 83,330 167,300 250,280 333,290 417,300 500,260 583,230 667,300 750,340 833,350 917,300 1000,260"/>
+                  <polyline class="ln c2" data-room="kueche" points="0,350 83,340 167,300 250,320 333,350 417,340 500,300 583,290 667,330 750,340 833,350 917,330 1000,320"/>
+                  <polyline class="ln c3" data-room="schlaf" points="0,340 83,330 167,320 250,300 333,310 417,320 500,330 583,300 667,200 750,190 833,190 917,200 1000,300"/>
+                  <polyline class="ln c4" data-room="kinder" points="0,300 83,290 167,280 250,270 333,270 417,280 500,300 583,300 667,200 750,110 833,100 917,70 1000,60"/>
+                  <polyline class="ln c5" data-room="bad" points="0,370 83,368 167,366 250,364 333,364 417,362 500,350 583,330 667,340 750,360 833,362 917,350 1000,360"/>
+                  <polyline class="ln c6" data-room="flur" points="0,372 83,370 167,370 250,368 333,368 417,366 500,364 583,362 667,364 750,368 833,368 917,366 1000,367"/>
+                  <line class="now" x1="1000" x2="1000" y1="0" y2="400"/>
+                </svg>
+                <span class="now-tag">Jetzt 07:42</span>
+              </div>
+              <div class="chart__x"><span>Di 07:42</span><span>Di 13:42</span><span>Di 19:42</span><span>Mi 01:42</span><span>Mi 07:42</span></div>
+            </div>
+            <div class="legend legend--row" style="margin-top:var(--s-4)">
+              <p class="legend__item c1" data-room="wohn">Wohnzimmer<b class="num">820 ppm</b></p>
+              <p class="legend__item c2" data-room="kueche">Küche<b class="num">640 ppm</b></p>
+              <p class="legend__item c3" data-room="schlaf">Schlafzimmer<b class="num">700 ppm</b></p>
+              <p class="legend__item c4" data-room="kinder">Kinderzimmer<b class="num">1.420 ppm</b></p>
+              <p class="legend__item c5" data-room="bad">Bad<b class="num">520 ppm</b></p>
+              <p class="legend__item c6" data-room="flur">Flur<b class="num">499 ppm</b></p>
+              <p class="legend__item legend__item--dash" style="--c:var(--alarm-soft)">Grenze<b class="num">1.200 ppm</b></p>
+            </div>
+          </div>
+
+          <!-- consumption vs solar -->
+          <div data-chart="energy" hidden>
+            <div class="chart" role="img" aria-label="Verbrauch gegenüber Solarertrag des ganzen Hauses, letzte 24 Stunden Simulationszeit">
+              <div class="chart__y"
+                ><span style="--p:100">0 kW</span
+                ><span style="--p:80">1</span
+                ><span style="--p:60">2</span
+                ><span style="--p:40">3</span
+                ><span style="--p:20">4</span
+                ><span style="--p:0">5</span
+              ></div>
+              <div class="chart__plot">
+                <svg viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
+                  <line class="gl" x1="0" x2="1000" y1="320" y2="320"
+                  /><line class="gl" x1="0" x2="1000" y1="240" y2="240"
+                  /><line class="gl" x1="0" x2="1000" y1="160" y2="160"
+                  /><line class="gl" x1="0" x2="1000" y1="80" y2="80"/>
+                  <path class="area fill-load" d="M0,208 L83,328 L167,336 L250,312 L333,296 L417,272 L500,152 L583,288 L667,360 L750,368 L833,368 L917,304 L1000,208 L1000,400 L0,400 Z"/>
+                  <path class="area fill-solar" d="M0,280 L83,160 L167,96 L250,128 L333,248 L417,392 L500,400 L583,400 L667,400 L750,400 L833,400 L917,400 L1000,256 L1000,400 L0,400 Z"/>
+                  <polyline class="ln c-out" points="0,208 83,328 167,336 250,312 333,296 417,272 500,152 583,288 667,360 750,368 833,368 917,304 1000,208"/>
+                  <polyline class="ln c-solar" points="0,280 83,160 167,96 250,128 333,248 417,392 500,400 583,400 667,400 750,400 833,400 917,400 1000,256"/>
+                  <line class="now" x1="1000" x2="1000" y1="0" y2="400"/>
+                </svg>
+                <span class="now-tag">Jetzt 07:42</span>
+              </div>
+              <div class="chart__x"><span>Di 07:42</span><span>Di 13:42</span><span>Di 19:42</span><span>Mi 01:42</span><span>Mi 07:42</span></div>
+            </div>
+            <div class="legend legend--row" style="margin-top:var(--s-4)">
+              <p class="legend__item c-out">Verbrauch<b class="num">2,4 kW</b></p>
+              <p class="legend__item c-solar">Solar<b class="num">1,8 kW</b></p>
+              <p class="legend__item" style="--c:var(--line-strong)">Netzbezug<b class="num">0,6 kW</b></p>
+            </div>
+            <p class="small muted" style="margin-top:var(--s-2)">Der Verbrauch gilt für das ganze Haus, deshalb gilt die Raumauswahl hier nicht.</p>
+          </div>
+
+          <p class="live" style="margin-top:var(--s-4)"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/radio" aria-hidden="true"
+              ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                ><path d="M16.247 7.761a6 6 0 0 1 0 8.478m2.828-11.306a10 10 0 0 1 0 14.134m-14.15 0a10 10 0 0 1 0-14.134m2.828 11.306a6 6 0 0 1 0-8.478"
+                /><circle cx="12" cy="12" r="2"
+              /></g
+            ></svg
+            ><span class="live-text">Alle Werte sind simuliert und wachsen mit der Simulationsuhr weiter.</span
+          ></p>
+        </section>
+        <div style="height:var(--s-6)"></div>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

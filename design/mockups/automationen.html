@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="screen-route" content="/automationen" />
+    <meta name="theme-color" content="#141a27" />
+    <title>Automationen – Haus Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- serves: AC-05, AC-06, AC-10, AC-15, AC-16, AC-19, AC-20, AC-23 -->
+    <header class="site-header" data-od-id="site-header">
+      <div class="site-header__inner page-pad">
+        <a class="brand" href="index.html">Haus Simulator</a>
+        <span class="tag-sim">Simulation</span>
+        <nav class="nav" aria-label="Hauptnavigation">
+          <a href="index.html">Übersicht</a>
+          <a href="verlauf.html">Verlauf</a>
+          <a href="automationen.html" aria-current="page">Automationen</a>
+          <a href="alarme.html">Alarme</a>
+          <a href="simulation.html">Simulation</a>
+        </nav>
+        <div class="header-end">
+          <span class="clock-chip"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/clock" aria-hidden="true"
+              ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                ><circle cx="12" cy="12" r="10"
+                /><path d="M12 6v6l4 2"
+              /></g
+            ></svg>Mi 07:42 · 60x</span>
+          <a class="badge-alarm" href="alarme.html"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/bell-ring" aria-hidden="true"
+              ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"
+            /></svg>Alarme <span data-alert-count>2</span
+          ></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-pad">
+        <section class="page-head" data-od-id="automations-head">
+          <h1 class="page-title">Das Haus handelt, wenn du es sagst</h1>
+          <p class="page-intro">Jede Regel verbindet eine Bedingung mit einer Aktion. Sobald die Bedingung stimmt, schaltet das Haus selbst und trägt es im Aktivitätsprotokoll ein.</p>
+        </section>
+
+        <div class="grid main-split region" style="padding-top:var(--s-5)">
+          <section class="span-5 stack" data-od-id="rules-list" aria-labelledby="rules-title">
+            <div class="row row--between">
+              <div class="row" style="gap:var(--s-2)">
+                <h2 id="rules-title" style="font-size:var(--fs-lead)">Regeln</h2>
+                <span class="label"><span data-rule-count>3</span> aktiv eingerichtet</span>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" data-rule-new data-od-id="rule-new"
+                ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/plus" aria-hidden="true"
+                  ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14"
+                /></svg>Neue Automation</button>
+            </div>
+
+            <div>
+              <article class="rule" data-name="Heizung aus, wenn Fenster offen" data-od-id="rule-heizung">
+                <div>
+                  <h3 class="rule__name">Heizung aus, wenn Fenster offen</h3>
+                  <p class="rule__sentence"><b>Wenn</b> ein Fenster offen ist <b>dann</b> Heizung im Raum aus</p>
+                  <p class="rule__last">Zuletzt Mi 07:38 · Küche</p>
+                </div>
+                <div class="rule__tools">
+                  <button type="button" class="btn-icon" data-rule-edit aria-label="Heizung aus, wenn Fenster offen bearbeiten"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/pencil" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497zM15 5l4 4"
+                    /></svg
+                  ></button>
+                  <button type="button" class="btn-icon" data-rule-del aria-label="Heizung aus, wenn Fenster offen löschen"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/trash-2" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    /></svg
+                  ></button>
+                  <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Heizung aus, wenn Fenster offen aktiv"></button>
+                </div>
+              </article>
+              <article class="rule" data-name="Rollläden runter bei Sonnenuntergang" data-od-id="rule-rollladen">
+                <div>
+                  <h3 class="rule__name">Rollläden runter bei Sonnenuntergang</h3>
+                  <p class="rule__sentence"><b>Wenn</b> die Sonne untergeht <b>dann</b> alle Rollläden auf 0 %</p>
+                  <p class="rule__last">Zuletzt Di 17:58 · 4 Rollläden</p>
+                </div>
+                <div class="rule__tools">
+                  <button type="button" class="btn-icon" data-rule-edit aria-label="Rollläden runter bei Sonnenuntergang bearbeiten"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/pencil" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497zM15 5l4 4"
+                    /></svg
+                  ></button>
+                  <button type="button" class="btn-icon" data-rule-del aria-label="Rollläden runter bei Sonnenuntergang löschen"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/trash-2" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    /></svg
+                  ></button>
+                  <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Rollläden runter bei Sonnenuntergang aktiv"></button>
+                </div>
+              </article>
+              <article class="rule" data-name="Licht aus, wenn 10 Minuten keine Bewegung" data-od-id="rule-licht">
+                <div>
+                  <h3 class="rule__name">Licht aus, wenn 10 Minuten keine Bewegung</h3>
+                  <p class="rule__sentence"><b>Wenn</b> 10 Minuten keine Bewegung <b>dann</b> Licht im Raum aus</p>
+                  <p class="rule__last">Zuletzt Mi 07:40 · Flur</p>
+                </div>
+                <div class="rule__tools">
+                  <button type="button" class="btn-icon" data-rule-edit aria-label="Licht aus, wenn 10 Minuten keine Bewegung bearbeiten"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/pencil" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497zM15 5l4 4"
+                    /></svg
+                  ></button>
+                  <button type="button" class="btn-icon" data-rule-del aria-label="Licht aus, wenn 10 Minuten keine Bewegung löschen"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/trash-2" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11v6m4-6v6m5-11v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    /></svg
+                  ></button>
+                  <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Licht aus, wenn 10 Minuten keine Bewegung aktiv"></button>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="span-4 stack" data-od-id="rule-editor" aria-labelledby="editor-title">
+            <div class="panel stack" style="gap:var(--s-3)">
+              <h2 id="editor-title" style="font-size:var(--fs-lead)">Regel bearbeiten</h2>
+
+              <div class="field">
+                <label class="label" for="rule-name">Name</label>
+                <input class="input" id="rule-name" type="text" maxlength="60" placeholder="z. B. Küche vorheizen" autocomplete="off" />
+                <p class="field-error" id="rule-name-error" hidden
+                  ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/circle-alert" aria-hidden="true"
+                    ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      ><circle cx="12" cy="12" r="10"
+                      /><path d="M12 8v4m0 4h.01"
+                    /></g
+                  ></svg>Bitte einen Namen eingeben.</p>
+              </div>
+
+              <div class="stack-sm" data-preview-src>
+                <span class="kw">Wenn</span>
+                <div class="editor-line">
+                  <div class="field">
+                    <label class="label" for="f-sensor">Sensor</label>
+                    <div class="select">
+                      <select id="f-sensor">
+                        <option>Temperatur Küche</option>
+                        <option>Temperatur Schlafzimmer</option>
+                        <option>Feuchte Bad</option>
+                        <option>CO2 Kinderzimmer</option>
+                        <option>Leistung Haus</option>
+                      </select>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/chevron-down" aria-hidden="true"
+                        ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"
+                      /></svg>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label" for="f-op">Ist</label>
+                    <div class="select">
+                      <select id="f-op"><option>&lt;</option><option>&gt;</option><option>=</option></select>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/chevron-down" aria-hidden="true"
+                        ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"
+                      /></svg>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label" for="f-val">Wert</label>
+                    <div class="input-unit">
+                      <input class="input" id="f-val" type="number" inputmode="decimal" value="18" />
+                      <label class="sr-only" for="f-unit">Einheit</label>
+                      <div class="select" style="min-width:84px">
+                        <select id="f-unit"><option>°C</option><option>%</option><option>ppm</option><option>W</option></select>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/chevron-down" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"
+                        /></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <span class="kw" style="margin-top:var(--s-2)">dann</span>
+                <div class="editor-line editor-line--2">
+                  <div class="field">
+                    <label class="label" for="f-device">Gerät</label>
+                    <div class="select">
+                      <select id="f-device">
+                        <option>Heizung Küche</option>
+                        <option>Licht Flur</option>
+                        <option>Rollladen Wohnzimmer</option>
+                        <option>Stehlampe Wohnzimmer</option>
+                      </select>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/chevron-down" aria-hidden="true"
+                        ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"
+                      /></svg>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label" for="f-action">Aktion</label>
+                    <div class="select">
+                      <select id="f-action"><option>An</option><option>Aus</option><option>Auf 50 %</option></select>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/chevron-down" aria-hidden="true"
+                        ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"
+                      /></svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="preview" data-preview aria-live="polite"><span>Wenn </span><b>Temperatur Küche &lt; 18 °C</b><span>, dann </span><b>Heizung Küche an</b><span>.</span></p>
+
+              <p class="live" id="rule-status" aria-live="polite"
+                ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/radio" aria-hidden="true"
+                  ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    ><path d="M16.247 7.761a6 6 0 0 1 0 8.478m2.828-11.306a10 10 0 0 1 0 14.134m-14.15 0a10 10 0 0 1 0-14.134m2.828 11.306a6 6 0 0 1 0-8.478"
+                    /><circle cx="12" cy="12" r="2"
+                  /></g
+                ></svg
+                ><span class="live-text">Neue Regel – Name und Bedingung eintragen.</span
+              ></p>
+
+              <div class="row row--between">
+                <button type="button" class="btn btn-primary" data-rule-save data-od-id="rule-save"
+                  ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                    ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                  /></svg>Speichern</button>
+                <p class="small muted" style="max-width:22ch">Namen erscheinen immer als reiner Text.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="span-3 stack" data-od-id="activity-log" aria-labelledby="log-title">
+            <h2 id="log-title" style="font-size:var(--fs-lead)">Aktivitätsprotokoll</h2>
+            <div class="log hair" aria-label="Protokoll in Simulationszeit">
+              <p class="label" style="padding-bottom:var(--s-1)">Heute, Mittwoch</p>
+              <div class="log__row is-latest"><time class="log__time">07:40</time><div><b>Licht aus, wenn 10 Minuten keine Bewegung</b><span>Flur</span></div></div>
+              <div class="log__row"><time class="log__time">07:38</time><div><b>Heizung aus, wenn Fenster offen</b><span>Küche</span></div></div>
+              <div class="log__row"><time class="log__time">07:12</time><div><b>Licht aus, wenn 10 Minuten keine Bewegung</b><span>Bad</span></div></div>
+              <div class="log__row"><time class="log__time">06:48</time><div><b>Licht aus, wenn 10 Minuten keine Bewegung</b><span>Schlafzimmer</span></div></div>
+              <p class="label" style="padding-block:var(--s-3) var(--s-1)">Gestern, Dienstag</p>
+              <div class="log__row"><time class="log__time">22:36</time><div><b>Licht aus, wenn 10 Minuten keine Bewegung</b><span>Küche</span></div></div>
+              <div class="log__row"><time class="log__time">21:50</time><div><b>Licht aus, wenn 10 Minuten keine Bewegung</b><span>Kinderzimmer</span></div></div>
+              <div class="log__row"><time class="log__time">17:58</time><div><b>Rollläden runter bei Sonnenuntergang</b><span>Wohnzimmer, Küche, Schlafzimmer, Kinderzimmer</span></div></div>
+              <div class="log__row"><time class="log__time">14:20</time><div><b>Heizung aus, wenn Fenster offen</b><span>Kinderzimmer</span></div></div>
+              <div class="log__row"><time class="log__time">07:44</time><div><b>Licht aus, wenn 10 Minuten keine Bewegung</b><span>Flur</span></div></div>
+            </div>
+          </section>
+        </div>
+        <div style="height:var(--s-6)"></div>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

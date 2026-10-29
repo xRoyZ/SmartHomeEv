@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="screen-route" content="/alarme" />
+    <meta name="theme-color" content="#141a27" />
+    <title>Alarme – Haus Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- serves: AC-07, AC-08, AC-10, AC-15, AC-16, AC-17, AC-19 -->
+    <header class="site-header" data-od-id="site-header">
+      <div class="site-header__inner page-pad">
+        <a class="brand" href="index.html">Haus Simulator</a>
+        <span class="tag-sim">Simulation</span>
+        <nav class="nav" aria-label="Hauptnavigation">
+          <a href="index.html">Übersicht</a>
+          <a href="verlauf.html">Verlauf</a>
+          <a href="automationen.html">Automationen</a>
+          <a href="alarme.html" aria-current="page">Alarme</a>
+          <a href="simulation.html">Simulation</a>
+        </nav>
+        <div class="header-end">
+          <span class="clock-chip"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/clock" aria-hidden="true"
+              ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                ><circle cx="12" cy="12" r="10"
+                /><path d="M12 6v6l4 2"
+              /></g
+            ></svg>Mi 07:42 · 60x</span>
+          <a class="badge-alarm" href="alarme.html"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/bell-ring" aria-hidden="true"
+              ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"
+            /></svg>Alarme <span data-alert-count>2</span
+          ></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-pad">
+        <section class="page-head" data-od-id="alerts-head">
+          <h1 class="page-title">Was das Haus meldet, bevor jemand fragt</h1>
+          <p class="page-intro">Ein Alarm bleibt sichtbar, bis ihn jemand bestätigt. Die Bestätigung gilt auf allen verbundenen Geräten sofort.</p>
+        </section>
+
+        <div class="grid main-split region" style="padding-top:var(--s-5)">
+          <div class="span-7 stack" style="gap:var(--s-6)">
+            <section class="stack-sm" data-od-id="alerts-active" aria-labelledby="active-title" style="gap:var(--s-3)">
+              <div class="row row--between">
+                <h2 id="active-title" style="font-size:var(--fs-lead)">Aktive Alarme</h2>
+                <span class="label"><span data-active-count>2</span> offen</span>
+              </div>
+              <div class="alert-list" data-alert-list>
+                <article class="alert-row alert-row--lg" data-od-id="alert-fenster">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/door-open" aria-hidden="true"
+                    ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      ><path d="M10 21H2m8-18H7a2 2 0 0 0-2 2v16m9-9h.01"
+                      /><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992zm3 0h-3"
+                    /></g
+                  ></svg>
+                  <div>
+                    <h3 class="alert-row__title">Fenster offen bei Heizung – Küche</h3>
+                    <p class="alert-row__meta">seit Mi 07:38 · Heizung läuft bei geöffnetem Fenster</p>
+                  </div>
+                  <button type="button" class="btn btn-primary" data-ack>Bestätigen</button>
+                  <span class="ack-note"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                    /></svg
+                    ><span>Bestätigt</span
+                  ></span>
+                </article>
+                <article class="alert-row alert-row--lg" data-od-id="alert-co2">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/wind" aria-hidden="true"
+                    ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.8 19.6A2 2 0 1 0 14 16H2m15.5-8a2.5 2.5 0 1 1 2 4H2m7.8-7.6A2 2 0 1 1 11 8H2"
+                  /></svg>
+                  <div>
+                    <h3 class="alert-row__title">CO2 1.420 ppm – Kinderzimmer</h3>
+                    <p class="alert-row__meta">seit Mi 07:21 · Grenze 1.200 ppm überschritten</p>
+                  </div>
+                  <button type="button" class="btn btn-secondary" data-ack>Bestätigen</button>
+                  <span class="ack-note"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                    /></svg
+                    ><span>Bestätigt</span
+                  ></span>
+                </article>
+              </div>
+              <div class="empty" data-empty hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/circle-check" aria-hidden="true"
+                  ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    ><circle cx="12" cy="12" r="10"
+                    /><path d="m16 9l-5.5 5.5L8 12"
+                  /></g
+                ></svg>
+                <strong>Alles ruhig im Haus</strong>
+                <span>Kein Raum meldet gerade eine Abweichung. Neue Alarme erscheinen hier, sobald ein Grenzwert überschritten wird.</span>
+              </div>
+            </section>
+
+            <section class="stack-sm" data-od-id="alerts-acknowledged" aria-labelledby="ack-title" style="gap:var(--s-3)">
+              <div class="row row--between">
+                <h2 id="ack-title" style="font-size:var(--fs-lead)">Bestätigt</h2>
+                <span class="label">Letzte 24 Stunden</span>
+              </div>
+              <div class="alert-list" data-ack-list>
+                <article class="alert-row is-ack">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/zap" aria-hidden="true"
+                    ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"
+                  /></svg>
+                  <div>
+                    <h3 class="alert-row__title">Stromspitze 5.340 W – Haus</h3>
+                    <p class="alert-row__meta">Di 18:47 · Backofen und Geschirrspüler gleichzeitig</p>
+                  </div>
+                  <span class="ack-note"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                    /></svg
+                    ><span>Bestätigt Di 18:49</span
+                  ></span>
+                </article>
+                <article class="alert-row is-ack">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/thermometer-snowflake" aria-hidden="true"
+                    ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      ><path d="m10 20l-1.25-2.5L6 18m4-14L8.75 6.5L6 6m4.585 9H10m-8-3h6.5L10 9m10 5.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"
+                      /><path d="m4 10l1.5 2L4 14m3 7l3-6l-1.5-3M7 3l3 6h2"
+                    /></g
+                  ></svg>
+                  <div>
+                    <h3 class="alert-row__title">Raumtemperatur 16,8° – Flur</h3>
+                    <p class="alert-row__meta">Mi 05:30 · unter dem Minimum von 17°</p>
+                  </div>
+                  <span class="ack-note"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                    /></svg
+                    ><span>Bestätigt Mi 06:02</span
+                  ></span>
+                </article>
+                <article class="alert-row is-ack">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/wind" aria-hidden="true"
+                    ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.8 19.6A2 2 0 1 0 14 16H2m15.5-8a2.5 2.5 0 1 1 2 4H2m7.8-7.6A2 2 0 1 1 11 8H2"
+                  /></svg>
+                  <div>
+                    <h3 class="alert-row__title">CO2 1.260 ppm – Schlafzimmer</h3>
+                    <p class="alert-row__meta">Mi 03:55 · über der Grenze von 1.200 ppm</p>
+                  </div>
+                  <span class="ack-note"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                    /></svg
+                    ><span>Bestätigt Mi 06:40</span
+                  ></span>
+                </article>
+              </div>
+            </section>
+          </div>
+
+          <section class="span-5 stack" data-od-id="thresholds" aria-labelledby="thr-title">
+            <div class="panel" style="display:grid;gap:var(--s-2)">
+              <div class="panel__head" style="margin-bottom:0">
+                <h2 id="thr-title" class="panel__title">Grenzwerte</h2>
+              </div>
+              <p class="small muted">Was als Abweichung zählt, legst du hier fest. Änderungen gelten sofort.</p>
+
+              <div class="thr" style="margin-top:var(--s-2)">
+                <span class="label">Raumtemperatur</span>
+                <div class="thr__pair">
+                  <div class="stack-sm">
+                    <span class="label label--ink">min</span>
+                    <div class="stepper" data-stepper data-min="10" data-max="22" data-step="1" data-dec="0" data-now="17" data-unit="°" data-target="thr-status" data-say="Untere Temperaturgrenze: {v}">
+                      <button type="button" class="btn-icon is-round" data-dir="-1" aria-label="Minimum senken"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/minus" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"
+                        /></svg
+                      ></button>
+                      <span class="stepper__value" data-value>17<small>°</small></span>
+                      <button type="button" class="btn-icon is-round" data-dir="1" aria-label="Minimum erhöhen"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/plus" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14"
+                        /></svg
+                      ></button>
+                    </div>
+                  </div>
+                  <div class="stack-sm">
+                    <span class="label label--ink">max</span>
+                    <div class="stepper" data-stepper data-min="22" data-max="35" data-step="1" data-dec="0" data-now="26" data-unit="°" data-target="thr-status" data-say="Obere Temperaturgrenze: {v}">
+                      <button type="button" class="btn-icon is-round" data-dir="-1" aria-label="Maximum senken"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/minus" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"
+                        /></svg
+                      ></button>
+                      <span class="stepper__value" data-value>26<small>°</small></span>
+                      <button type="button" class="btn-icon is-round" data-dir="1" aria-label="Maximum erhöhen"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/plus" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14"
+                        /></svg
+                      ></button>
+                    </div>
+                  </div>
+                </div>
+                <p class="thr__now">Kühlster Raum Flur 18,9° · wärmster Bad 22,4°</p>
+              </div>
+
+              <div class="thr">
+                <span class="label">CO2-Grenze</span>
+                <div class="stepper" data-stepper data-min="600" data-max="2500" data-step="50" data-dec="0" data-now="1200" data-unit=" ppm" data-target="thr-status" data-say="CO2-Grenze: {v}">
+                  <button type="button" class="btn-icon is-round" data-dir="-1" aria-label="CO2-Grenze senken"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/minus" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"
+                    /></svg
+                  ></button>
+                  <span class="stepper__value" data-value style="min-width:5.4ch">1.200<small>ppm</small></span>
+                  <button type="button" class="btn-icon is-round" data-dir="1" aria-label="CO2-Grenze erhöhen"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/plus" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14"
+                    /></svg
+                  ></button>
+                </div>
+                <p class="thr__now">Höchster Wert: Kinderzimmer 1.420 ppm</p>
+              </div>
+
+              <div class="thr">
+                <span class="label">Leistungsgrenze</span>
+                <div class="stepper" data-stepper data-min="500" data-max="10000" data-step="250" data-dec="0" data-now="5000" data-unit=" W" data-target="thr-status" data-say="Leistungsgrenze: {v}">
+                  <button type="button" class="btn-icon is-round" data-dir="-1" aria-label="Leistungsgrenze senken"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/minus" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"
+                    /></svg
+                  ></button>
+                  <span class="stepper__value" data-value style="min-width:5.4ch">5.000<small>W</small></span>
+                  <button type="button" class="btn-icon is-round" data-dir="1" aria-label="Leistungsgrenze erhöhen"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/plus" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14"
+                    /></svg
+                  ></button>
+                </div>
+                <p class="thr__now">Aktuell 2.400 W im ganzen Haus</p>
+              </div>
+
+              <p class="live" id="thr-status" aria-live="polite"
+                ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/radio" aria-hidden="true"
+                  ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    ><path d="M16.247 7.761a6 6 0 0 1 0 8.478m2.828-11.306a10 10 0 0 1 0 14.134m-14.15 0a10 10 0 0 1 0-14.134m2.828 11.306a6 6 0 0 1 0-8.478"
+                    /><circle cx="12" cy="12" r="2"
+                  /></g
+                ></svg
+                ><span class="live-text">Grenzwerte gelten für alle verbundenen Geräte.</span
+              ></p>
+            </div>
+          </section>
+        </div>
+        <div style="height:var(--s-6)"></div>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

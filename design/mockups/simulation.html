@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="screen-route" content="/simulation" />
+    <meta name="theme-color" content="#141a27" />
+    <title>Simulation – Haus Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- serves: AC-07, AC-10, AC-11, AC-12, AC-13, AC-15, AC-16, AC-19 -->
+    <header class="site-header" data-od-id="site-header">
+      <div class="site-header__inner page-pad">
+        <a class="brand" href="index.html">Haus Simulator</a>
+        <span class="tag-sim">Simulation</span>
+        <nav class="nav" aria-label="Hauptnavigation">
+          <a href="index.html">Übersicht</a>
+          <a href="verlauf.html">Verlauf</a>
+          <a href="automationen.html">Automationen</a>
+          <a href="alarme.html">Alarme</a>
+          <a href="simulation.html" aria-current="page">Simulation</a>
+        </nav>
+        <div class="header-end">
+          <span class="clock-chip"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/clock" aria-hidden="true"
+              ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                ><circle cx="12" cy="12" r="10"
+                /><path d="M12 6v6l4 2"
+              /></g
+            ></svg>Mi 07:42 · 60x</span>
+          <a class="badge-alarm" href="alarme.html"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/bell-ring" aria-hidden="true"
+              ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"
+            /></svg>Alarme <span data-alert-count>2</span
+          ></a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-pad">
+        <section class="page-head" data-od-id="simulation-head">
+          <h1 class="page-title">Bring das Haus kontrolliert aus dem Takt</h1>
+          <p class="page-intro">Stell Wetter, Jahreszeit und Bewohner ein und löse ein Ereignis aus. Jedes Ereignis verändert Messwerte und erzeugt einen Alarm in der Übersicht.</p>
+        </section>
+
+        <div class="grid main-split region" style="padding-top:var(--s-5)">
+          <section class="span-5 stack" data-od-id="conditions" aria-labelledby="cond-title">
+            <div class="panel" style="display:grid;gap:var(--s-2)">
+              <h2 id="cond-title" class="panel__title">Bedingungen</h2>
+
+              <div class="cond" style="margin-top:var(--s-1)">
+                <span class="label" id="lbl-weather">Wetter</span>
+                <div class="chips" data-seg role="group" aria-labelledby="lbl-weather">
+                  <button type="button" class="chip" aria-pressed="true">Automatisch</button>
+                  <button type="button" class="chip" aria-pressed="false">Sonnig</button>
+                  <button type="button" class="chip" aria-pressed="false">Bewölkt</button>
+                  <button type="button" class="chip" aria-pressed="false">Regen</button>
+                  <button type="button" class="chip" aria-pressed="false">Schnee</button>
+                </div>
+              </div>
+
+              <div class="cond">
+                <span class="label" id="lbl-season">Jahreszeit</span>
+                <div class="chips" data-seg role="group" aria-labelledby="lbl-season">
+                  <button type="button" class="chip" aria-pressed="false">Frühling</button>
+                  <button type="button" class="chip" aria-pressed="false">Sommer</button>
+                  <button type="button" class="chip" aria-pressed="true">Herbst</button>
+                  <button type="button" class="chip" aria-pressed="false">Winter</button>
+                </div>
+              </div>
+
+              <div class="cond">
+                <span class="label" id="lbl-people">Bewohner</span>
+                <div class="chips" data-seg role="group" aria-labelledby="lbl-people">
+                  <button type="button" class="chip" aria-pressed="true">Standard</button>
+                  <button type="button" class="chip" aria-pressed="false">Homeoffice</button>
+                  <button type="button" class="chip" aria-pressed="false">Urlaub</button>
+                </div>
+              </div>
+
+              <div class="cond">
+                <div class="editor-line editor-line--2">
+                  <div class="field">
+                    <label class="label" for="start-time">Startzeit</label>
+                    <input class="input" id="start-time" type="time" value="06:00" />
+                  </div>
+                  <div class="field">
+                    <label class="label" for="seed">Seed</label>
+                    <input class="input" id="seed" type="number" inputmode="numeric" min="0" max="999999" value="42" />
+                  </div>
+                </div>
+                <p class="seed-hint">Gleicher Seed, gleiche Einstellungen und gleiche Eingaben ergeben genau denselben Ablauf.</p>
+              </div>
+
+              <div class="row" style="margin-top:var(--s-2)">
+                <button type="button" class="btn btn-primary" data-say-click="Einstellungen übernommen – Wetter automatisch, Herbst, Bewohner Standard" data-target="sim-status" data-od-id="apply-conditions"
+                  ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                    ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                  /></svg>Einstellungen übernehmen</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="span-7 stack" data-od-id="events" aria-labelledby="events-title">
+            <h2 id="events-title" style="font-size:var(--fs-lead)">Ereignisse auslösen</h2>
+            <div class="events">
+              <button type="button" class="event-btn event-btn--lead" data-event="Fenster vergessen">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/door-open" aria-hidden="true"
+                  ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    ><path d="M10 21H2m8-18H7a2 2 0 0 0-2 2v16m9-9h.01"
+                    /><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992zm3 0h-3"
+                  /></g
+                ></svg>
+                <span>
+                  <span class="event-btn__title">Fenster vergessen</span>
+                  <span class="event-btn__desc">Ein Fenster bleibt bei laufender Heizung offen.</span>
+                  <span class="event-btn__status">Bereit</span>
+                </span>
+              </button>
+              <button type="button" class="event-btn event-btn--wide" data-event="Wasserschaden">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/droplets" aria-hidden="true"
+                  ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    ><path d="M7 16.3c2.2 0 4-1.83 4-4.05c0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05"
+                    /><path d="M12.56 6.6A11 11 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"
+                  /></g
+                ></svg>
+                <span>
+                  <span class="event-btn__title">Wasserschaden</span>
+                  <span class="event-btn__desc">Der Leckmelder in Bad oder Küche schlägt an.</span>
+                  <span class="event-btn__status">Bereit</span>
+                </span>
+              </button>
+              <button type="button" class="event-btn" data-event="Rauch in der Küche">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/flame" aria-hidden="true"
+                  ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0a5 5 0 0 1 1-3a1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"
+                /></svg>
+                <span>
+                  <span class="event-btn__title">Rauch in der Küche</span>
+                  <span class="event-btn__desc">Der Rauchmelder löst aus.</span>
+                  <span class="event-btn__status">Bereit</span>
+                </span>
+              </button>
+              <button type="button" class="event-btn" data-event="Stromspitze">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/zap" aria-hidden="true"
+                  ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"
+                /></svg>
+                <span>
+                  <span class="event-btn__title">Stromspitze</span>
+                  <span class="event-btn__desc">Der Verbrauch springt plötzlich hoch.</span>
+                  <span class="event-btn__status">Bereit</span>
+                </span>
+              </button>
+              <button type="button" class="event-btn" data-event="Heizungsausfall">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/thermometer-snowflake" aria-hidden="true"
+                  ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    ><path d="m10 20l-1.25-2.5L6 18m4-14L8.75 6.5L6 6m4.585 9H10m-8-3h6.5L10 9m10 5.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"
+                    /><path d="m4 10l1.5 2L4 14m3 7l3-6l-1.5-3M7 3l3 6h2"
+                  /></g
+                ></svg>
+                <span>
+                  <span class="event-btn__title">Heizungsausfall</span>
+                  <span class="event-btn__desc">Alle Heizkörper hören auf zu heizen.</span>
+                  <span class="event-btn__status">Bereit</span>
+                </span>
+              </button>
+            </div>
+            <p class="live" id="sim-status" aria-live="polite"
+              ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/radio" aria-hidden="true"
+                ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  ><path d="M16.247 7.761a6 6 0 0 1 0 8.478m2.828-11.306a10 10 0 0 1 0 14.134m-14.15 0a10 10 0 0 1 0-14.134m2.828 11.306a6 6 0 0 1 0-8.478"
+                  /><circle cx="12" cy="12" r="2"
+                /></g
+              ></svg
+              ><span class="live-text">Ereignisse wirken sofort und erscheinen auf allen verbundenen Geräten.</span
+            ></p>
+          </section>
+        </div>
+
+        <section class="region" style="padding-top:var(--s-6)" data-od-id="reset-zone" aria-labelledby="reset-title">
+          <div class="reset-zone">
+            <div class="stack-sm">
+              <h2 id="reset-title" style="font-size:var(--fs-lead)">Zurück zum Anfang</h2>
+              <p>Uhr, Gerätezustände, Alarme, Verlauf und die drei Standard-Automationen kehren in den Ausgangszustand zurück. Seed 42 und Startzeit 06:00 bleiben.</p>
+            </div>
+            <button type="button" class="btn btn-secondary is-danger" data-say-click="Simulation auf Ausgangszustand zurückgesetzt – Startzeit 06:00, Seed 42" data-clear-events="true" data-target="sim-status" data-od-id="reset-simulation"
+              ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/rotate-ccw" aria-hidden="true"
+                ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  ><path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"
+                  /><path d="M3 3v5h5"
+                /></g
+              ></svg>Auf Ausgangszustand zurücksetzen</button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

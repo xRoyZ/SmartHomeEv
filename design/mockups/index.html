@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="screen-route" content="/" />
+    <meta name="theme-color" content="#141a27" />
+    <title>Übersicht – Haus Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- serves: AC-01, AC-02, AC-10, AC-11, AC-15, AC-17 -->
+    <header class="site-header" data-od-id="site-header">
+      <div class="site-header__inner page-pad">
+        <a class="brand" href="index.html">Haus Simulator</a>
+        <span class="tag-sim" data-od-id="simulation-tag">Simulation</span>
+        <nav class="nav" aria-label="Hauptnavigation">
+          <a href="index.html" aria-current="page">Übersicht</a>
+          <a href="verlauf.html">Verlauf</a>
+          <a href="automationen.html">Automationen</a>
+          <a href="alarme.html">Alarme</a>
+          <a href="simulation.html">Simulation</a>
+        </nav>
+        <div class="header-end">
+          <a class="badge-alarm" href="alarme.html" data-od-id="alarm-badge"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/bell-ring" aria-hidden="true"
+              ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"
+            /></svg>Alarme <span data-alert-count>2</span
+          ></a>
+        </div>
+      </div>
+    </header>
+
+    <h1 class="sr-only">Live-Übersicht des Hauses</h1>
+
+    <section class="clock-band" data-od-id="clock-band" aria-label="Simulationsuhr">
+      <div class="page-pad clock-band__inner">
+        <div>
+          <p class="label">Simulationszeit</p>
+          <p class="clock-time" data-clock data-od-id="sim-clock"><span class="day" data-clock-day>Mi</span><span data-clock-hm>07:42</span></p>
+        </div>
+        <div class="clock-meta">
+          <p class="chip-season"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/leaf" aria-hidden="true"
+              ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                ><path d="M11 20a10 10 0 0 0 10-10a25.9 25.9 0 0 0-1.04-7.281a1 1 0 0 0-1.755-.325C15.833 5.5 13 5.5 9.8 6.1A7 7 0 0 0 11 20"
+                /><path d="M2 21a5 5 0 0 1 2.911-4.544C7.613 15.212 8.351 15.24 11 13"
+              /></g
+            ></svg>Herbst</p>
+          <p class="paused-note" data-paused-note hidden>Pausiert</p>
+        </div>
+        <div class="stack-sm">
+          <p class="label" id="tempo-label">Tempo</p>
+          <div class="seg" role="group" aria-labelledby="tempo-label" data-seg data-speed data-od-id="speed-segments">
+            <button type="button" aria-pressed="false" data-value="1x">1x</button>
+            <button type="button" aria-pressed="true" data-value="60x">60x</button>
+            <button type="button" aria-pressed="false" data-value="360x">360x</button>
+            <button type="button" aria-pressed="false" data-value="1440x">1440x</button>
+          </div>
+        </div>
+        <div class="clock-actions">
+          <button type="button" class="btn btn-primary" data-play aria-pressed="false" data-od-id="play-pause">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/pause" aria-hidden="true"
+              ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                ><rect width="5" height="18" x="14" y="3" rx="1"
+                /><rect width="5" height="18" x="5" y="3" rx="1"
+              /></g
+            ></svg
+            ><span class="when-off">Pause</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon when-on" data-icon="lucide/play" aria-hidden="true"
+              ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"
+            /></svg
+            ><span class="when-on">Fortsetzen</span>
+          </button>
+          <button type="button" class="btn btn-secondary" data-reset data-od-id="clock-reset"
+            ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/rotate-ccw" aria-hidden="true"
+              ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                ><path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"
+                /><path d="M3 3v5h5"
+              /></g
+            ></svg>Zurücksetzen</button>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <div class="page-pad">
+        <div class="grid main-split region">
+          <section class="span-8 house" aria-label="Hausplan als Schnitt" data-od-id="house-plan">
+            <div class="roof" data-od-id="roof-solar">
+              <div class="solar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/sun" aria-hidden="true"
+                  ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    ><circle cx="12" cy="12" r="4"
+                    /><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+                  /></g
+                ></svg>
+                <span class="label">Solaranlage</span>
+                <span class="figure num">1,8<small>kW</small></span>
+                <span class="tag" style="margin-left:auto">Simuliert</span>
+              </div>
+            </div>
+            <div class="house__body">
+              <div class="floor" data-od-id="floor-upper">
+                <p class="label">Obergeschoss</p>
+                <div class="rooms">
+                  <a class="room" href="raum.html" style="--lit:0" data-od-id="room-schlafzimmer">
+                    <div>
+                      <p class="room__name">Schlafzimmer</p>
+                      <p class="room__temp">19,5°</p>
+                      <span class="temp-scale" style="--t:.35"></span>
+                    </div>
+                    <div class="room__tags">
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/lightbulb-off" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.8 11.2c.8-.9 1.2-2 1.2-3.2a6 6 0 0 0-9.3-5M2 2l20 20M6.3 6.3a4.67 4.67 0 0 0 1.2 5.2c.7.7 1.3 1.5 1.5 2.5m0 4h6m-5 4h4"
+                        /></svg>Licht aus</span>
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/door-closed" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m-3 0h20M9 12h.01"
+                        /></svg>Fenster zu</span>
+                    </div>
+                  </a>
+                  <a class="room" href="raum.html" style="--lit:.9" data-od-id="room-kinderzimmer">
+                    <div>
+                      <p class="room__name">Kinderzimmer</p>
+                      <p class="room__temp">20,1°</p>
+                      <span class="temp-scale" style="--t:.41"></span>
+                    </div>
+                    <div class="room__tags">
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/activity" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"
+                        /></svg>Bewegung</span>
+                      <span class="tag tag--alarm"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/triangle-alert" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"
+                        /></svg>CO2 hoch</span>
+                    </div>
+                  </a>
+                  <a class="room" href="raum.html" style="--lit:.7" data-od-id="room-bad">
+                    <div>
+                      <p class="room__name">Bad</p>
+                      <p class="room__temp">22,4°</p>
+                      <span class="temp-scale" style="--t:.64"></span>
+                    </div>
+                    <div class="room__tags">
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/droplets" aria-hidden="true"
+                          ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            ><path d="M7 16.3c2.2 0 4-1.83 4-4.05c0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05"
+                            /><path d="M12.56 6.6A11 11 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"
+                          /></g
+                        ></svg>78 % Feuchte</span>
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/door-closed" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m-3 0h20M9 12h.01"
+                        /></svg>Fenster zu</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="floor" data-od-id="floor-ground">
+                <p class="label">Erdgeschoss</p>
+                <div class="rooms">
+                  <a class="room" href="raum.html" style="--lit:.6" data-od-id="room-wohnzimmer">
+                    <div>
+                      <p class="room__name">Wohnzimmer</p>
+                      <p class="room__temp">21,0°</p>
+                      <span class="temp-scale" style="--t:.5"></span>
+                    </div>
+                    <div class="room__tags">
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/lightbulb" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 14c.2-1 .7-1.7 1.5-2.5c1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5c.7.7 1.3 1.5 1.5 2.5m0 4h6m-5 4h4"
+                        /></svg>Licht 60 %</span>
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/door-closed" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m-3 0h20M9 12h.01"
+                        /></svg>Fenster zu</span>
+                    </div>
+                  </a>
+                  <a class="room is-alarm" href="raum.html" style="--lit:.5" data-od-id="room-kueche">
+                    <div>
+                      <p class="room__name">Küche</p>
+                      <p class="room__temp">20,8°</p>
+                      <span class="temp-scale" style="--t:.48"></span>
+                    </div>
+                    <div class="room__tags">
+                      <span class="tag tag--alarm"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/door-open" aria-hidden="true"
+                          ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            ><path d="M10 21H2m8-18H7a2 2 0 0 0-2 2v16m9-9h.01"
+                            /><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992zm3 0h-3"
+                          /></g
+                        ></svg>Fenster offen</span>
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/activity" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"
+                        /></svg>Bewegung</span>
+                    </div>
+                  </a>
+                  <a class="room" href="raum.html" style="--lit:.1" data-od-id="room-flur">
+                    <div>
+                      <p class="room__name">Flur</p>
+                      <p class="room__temp">18,9°</p>
+                      <span class="temp-scale" style="--t:.29"></span>
+                    </div>
+                    <div class="room__tags">
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/lock" aria-hidden="true"
+                          ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            ><rect width="18" height="11" x="3" y="11" rx="2" ry="2"
+                            /><path d="M7 11V7a5 5 0 0 1 10 0v4"
+                          /></g
+                        ></svg>Haustür zu</span>
+                      <span class="tag"
+                        ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/lightbulb-off" aria-hidden="true"
+                          ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.8 11.2c.8-.9 1.2-2 1.2-3.2a6 6 0 0 0-9.3-5M2 2l20 20M6.3 6.3a4.67 4.67 0 0 0 1.2 5.2c.7.7 1.3 1.5 1.5 2.5m0 4h6m-5 4h4"
+                        /></svg>Licht aus</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="ground-line"></div>
+          </section>
+
+          <aside class="span-4" aria-label="Außenwetter, Energie und Alarme">
+            <section class="side-block" data-od-id="outdoor-weather">
+              <p class="label">Außen</p>
+              <div class="row" style="gap:16px;align-items:flex-end">
+                <p class="figure num">6,2°</p>
+                <p class="lead row" style="gap:8px"
+                  ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/cloud" aria-hidden="true"
+                    ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9"
+                  /></svg>bewölkt</p>
+              </div>
+              <p class="small muted"
+                ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/sunrise" aria-hidden="true" style="display:inline;vertical-align:-5px;margin-right:6px"
+                  ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v8m-7.07.93l1.41 1.41M2 18h2m16 0h2m-2.93-7.07l-1.41 1.41M22 22H2M8 6l4-4l4 4m0 12a4 4 0 0 0-8 0"
+                /></svg>Sonnenaufgang 07:31</p>
+            </section>
+
+            <section class="side-block" data-od-id="energy-ring">
+              <p class="label">Energie</p>
+              <div class="row" style="gap:24px;flex-wrap:nowrap;align-items:center">
+                <div class="ring" style="width:160px;height:160px;margin:0;flex:none" role="img" aria-label="Verbrauch 2,4 kW, davon 1,8 kW Solar und 0,6 kW Netzbezug">
+                  <svg viewBox="0 0 200 200" aria-hidden="true">
+                    <circle class="track" cx="100" cy="100" r="80"></circle>
+                    <circle class="seg-solar" cx="100" cy="100" r="80" stroke-dasharray="372 502.65"></circle>
+                    <circle class="seg-grid" cx="100" cy="100" r="80" stroke-dasharray="120 502.65" stroke-dashoffset="-380"></circle>
+                  </svg>
+                  <div class="ring__center">
+                    <span class="figure num" style="font-size:32px">2,4</span>
+                    <span class="label" style="color:var(--ink-2)">kW</span>
+                  </div>
+                </div>
+                <div class="legend" style="flex:1;min-width:0">
+                  <p class="legend__item" style="--c:var(--ink)">Verbrauch<b class="num">2,4 kW</b></p>
+                  <p class="legend__item" style="--c:var(--accent)">Solar<b class="num">1,8 kW</b></p>
+                  <p class="legend__item" style="--c:var(--ink-2)">Netzbezug<b class="num">0,6 kW</b></p>
+                </div>
+              </div>
+            </section>
+
+            <section class="side-block" data-od-id="active-alerts">
+              <div class="row row--between">
+                <p class="label">Aktive Alarme</p>
+                <a class="link" href="alarme.html">Alle Alarme</a>
+              </div>
+              <div class="alert-list" data-alert-list>
+                <div class="alert-row is-new" data-od-id="alert-fenster-kueche">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/door-open" aria-hidden="true"
+                    ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      ><path d="M10 21H2m8-18H7a2 2 0 0 0-2 2v16m9-9h.01"
+                      /><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992zm3 0h-3"
+                    /></g
+                  ></svg>
+                  <div>
+                    <p class="alert-row__title">Fenster offen bei Heizung – Küche</p>
+                    <p class="alert-row__meta num">seit 07:38</p>
+                  </div>
+                  <button type="button" class="btn btn-secondary btn-sm" data-ack>Bestätigen</button>
+                  <span class="ack-note"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                    /></svg
+                    ><span>Bestätigt</span
+                  ></span>
+                </div>
+                <div class="alert-row" data-od-id="alert-co2-kinderzimmer">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/wind" aria-hidden="true"
+                    ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.8 19.6A2 2 0 1 0 14 16H2m15.5-8a2.5 2.5 0 1 1 2 4H2m7.8-7.6A2 2 0 1 1 11 8H2"
+                  /></svg>
+                  <div>
+                    <p class="alert-row__title">CO2 1.420 ppm – Kinderzimmer</p>
+                    <p class="alert-row__meta num">seit 07:21</p>
+                  </div>
+                  <button type="button" class="btn btn-secondary btn-sm" data-ack>Bestätigen</button>
+                  <span class="ack-note"
+                    ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/check" aria-hidden="true"
+                      ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"
+                    /></svg
+                    ><span>Bestätigt</span
+                  ></span>
+                </div>
+              </div>
+              <div class="empty" data-empty hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/circle-check" aria-hidden="true"
+                  ><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    ><circle cx="12" cy="12" r="10"
+                    /><path d="m16 9l-5.5 5.5L8 12"
+                  /></g
+                ></svg>
+                <strong>Alles ruhig</strong>
+                <p class="small">Im ganzen Haus liegt gerade kein Alarm vor.</p>
+              </div>
+            </section>
+          </aside>
+        </div>
+
+        <div class="log-line" data-od-id="activity-latest">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" data-icon="lucide/zap" aria-hidden="true"
+            ><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"
+          /></svg>
+          <p class="log-line__text"><span class="mono">07:40</span>&nbsp;&nbsp;Automatik: Licht aus, wenn 10 Minuten keine Bewegung – Flur</p>
+          <a class="link" href="automationen.html">Aktivitätsprotokoll</a>
+        </div>
+        <div style="height:var(--s-6)"></div>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
