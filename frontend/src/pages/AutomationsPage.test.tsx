@@ -113,6 +113,30 @@ describe("AutomationsPage", () => {
     expect(within(rule).getByText(/Licht Flur aus/)).toBeInTheDocument();
   });
 
+  it("shows the value with its unit as text, which follows the chosen sensor", () => {
+    renderPage(makeState());
+    const value = screen.getByLabelText("Wert");
+    const unit = value.parentElement?.querySelector("#f-unit") as HTMLElement;
+    expect(value.parentElement).toHaveClass("input-unit");
+    expect(value).toHaveAttribute("aria-describedby", "f-unit");
+    expect(unit.tagName).toBe("SPAN");
+    expect(unit).toHaveTextContent("°C");
+    fireEvent.change(screen.getByLabelText("Sensor"), { target: { value: "kueche:co2_ppm" } });
+    expect(unit).toHaveTextContent("ppm");
+  });
+
+  it("gives every rule row its edit, delete and switch controls", () => {
+    const { container } = renderPage(makeState());
+    const rows = container.querySelectorAll("article.rule");
+    expect(rows.length).toBeGreaterThan(0);
+    rows.forEach((row) => {
+      const tools = row.querySelector(".rule__tools") as HTMLElement;
+      expect(tools.querySelector("[data-rule-edit]")).not.toBeNull();
+      expect(tools.querySelector("[data-rule-del]")).not.toBeNull();
+      expect(within(tools).getByRole("switch")).toBeInTheDocument();
+    });
+  });
+
   it("creating sends a valid AutomationIn", async () => {
     vi.mocked(createAutomation).mockImplementation(async (a) => ({ ...a, id: 7, last_fired_at: null }));
     renderPage(makeState());

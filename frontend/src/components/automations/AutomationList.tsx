@@ -201,14 +201,19 @@ export function AutomationList({ automations, devices, rooms, editingId, onNew, 
                   </div>
                 ) : (
                   <div className="rule__tools">
-                    <IconButton icon="pencil" label={`${a.name} bearbeiten`} data-rule-edit onClick={() => onEdit(a)} />
-                    <IconButton
-                      icon="trash-2"
-                      label={`${a.name} löschen`}
-                      data-rule-del
-                      disabled={busy}
-                      onClick={() => setConfirmId(a.id)}
-                    />
+                    {/* Edit and delete stay together; on a phone the tools row spreads
+                        (justify-content: space-between), which keeps the switch at the far
+                        end instead of pushing the delete icon to the middle of the row. */}
+                    <span className="row" style={{ gap: 0, flexWrap: "nowrap" }}>
+                      <IconButton icon="pencil" label={`${a.name} bearbeiten`} data-rule-edit onClick={() => onEdit(a)} />
+                      <IconButton
+                        icon="trash-2"
+                        label={`${a.name} löschen`}
+                        data-rule-del
+                        disabled={busy}
+                        onClick={() => setConfirmId(a.id)}
+                      />
+                    </span>
                     <Switch
                       checked={a.enabled}
                       label={`${a.name} aktiv`}
