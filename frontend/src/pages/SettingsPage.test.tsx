@@ -131,16 +131,43 @@ describe("SettingsPage", () => {
     expect(updateSettings).not.toHaveBeenCalled();
 
     fireEvent.change(seed, { target: { value: "7" } });
-    fireEvent.change(screen.getByLabelText("Startzeit"), { target: { value: "2026-07-01T08:30" } });
+    fireEvent.change(screen.getByLabelText("Startzeit"), { target: { value: "08:30" } });
     fireEvent.click(screen.getByRole("button", { name: "Erwachsene erhöhen" }));
     fireEvent.click(screen.getByRole("button", { name: /Einstellungen übernehmen/ }));
     await waitFor(() =>
       expect(updateSettings).toHaveBeenCalledWith({
-        start_time: "2026-07-01T08:30:00",
+        start_time: "2026-01-14T08:30:00",
         seed: 7,
         adults: 3,
         children: 1,
       }),
     );
+  });
+
+  it("shows the start time as a German 24-hour time", () => {
+    renderPage(makeState({ settings: { ...makeState().settings, start_time: "2026-01-14T18:45:00" } }));
+    const field = screen.getByLabelText("Startzeit") as HTMLInputElement;
+    expect(field.value).toBe("18:45");
+    expect(field.value).not.toMatch(/AM|PM|\//);
+  });
+
+  it("changing the time sends an ISO start_time with the new time on the settings' date", async () => {
+    vi.mocked(updateSettings).mockImplementation(async (u) => ({ ...makeState().settings, ...u }));
+    renderPage(makeState());
+    fireEvent.change(screen.getByLabelText("Startzeit"), { target: { value: "21:15" } });
+    fireEvent.click(screen.getByRole("button", { name: /Einstellungen übernehmen/ }));
+    await waitFor(() => expect(updateSettings).toHaveBeenCalledTimes(1));
+    const sent = vi.mocked(updateSettings).mock.calls[0][0];
+    expect(sent.start_time).toBe("2026-01-14T21:15:00");
+    expect(sent.start_time).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/);
+  });
+
+  it("rejects an impossible time only after it was typed", () => {
+    renderPage(makeState());
+    expect(screen.queryByText(/Uhrzeit von 00:00 bis 23:59/)).toBeNull();
+    fireEvent.change(screen.getByLabelText("Startzeit"), { target: { value: "25:00" } });
+    expect(screen.getByText(/Uhrzeit von 00:00 bis 23:59/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Einstellungen übernehmen/ }));
+    expect(updateSettings).not.toHaveBeenCalled();
   });
 });

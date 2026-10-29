@@ -54,6 +54,37 @@ export function fromLocalInput(value: string): string | null {
   return `${y}-${mo}-${d}T${h}:${mi}:${s ?? "00"}`;
 }
 
+/** "2026-01-15T06:00:00" -> "06:00" (the value of the start time field). */
+export function toTimeInput(iso: string): string {
+  return iso.slice(11, 16);
+}
+
+/** "6:00" / "06:00" -> "06:00"; null when it is no valid 24-hour time. */
+export function parseTimeInput(value: string): string | null {
+  const m = /^(\d{1,2})[:.](\d{2})$/.exec(value.trim());
+  if (!m) return null;
+  const h = Number(m[1]);
+  const mi = Number(m[2]);
+  if (h > 23 || mi > 59) return null;
+  return `${String(h).padStart(2, "0")}:${m[2]}`;
+}
+
+/**
+ * Keeps the date of `iso` and puts in the edited time:
+ * ("2026-01-15T06:00:00", "08:30") -> "2026-01-15T08:30:00"; null for an invalid time.
+ */
+export function withTime(iso: string, time: string): string | null {
+  const hhmm = parseTimeInput(time);
+  if (hhmm === null) return null;
+  return fromLocalInput(`${iso.slice(0, 10)}T${hhmm}`);
+}
+
+/** Half-hour steps offered by the start time field's pick list. */
+const START_TIME_CHOICES: string[] = Array.from(
+  { length: 48 },
+  (_, i) => `${String(Math.floor(i / 2)).padStart(2, "0")}:${i % 2 === 0 ? "00" : "30"}`,
+);
+
 interface Draft {
   start: string;
   seed: string;
@@ -68,18 +99,25 @@ interface DraftErrors {
 
 function draftOf(settings: Settings): Draft {
   return {
-    start: toLocalInput(settings.start_time),
+    start: toTimeInput(settings.start_time),
     seed: String(settings.seed),
     adults: settings.adults,
     children: settings.children,
   };
 }
 
-/** Checks the draft; returns the update to send, or the German field errors. */
-export function validateDraft(draft: Draft): { update: SettingsUpdate | null; errors: DraftErrors } {
+/**
+ * Checks the draft; returns the update to send, or the German field errors.
+ * The draft holds only the time; the date comes from `currentStart`
+ * (state.settings.start_time), so start_time stays a full naive ISO datetime.
+ */
+export function validateDraft(
+  draft: Draft,
+  currentStart: string,
+): { update: SettingsUpdate | null; errors: DraftErrors } {
   const errors: DraftErrors = {};
-  const start = fromLocalInput(draft.start);
-  if (start === null) errors.start = "Bitte Datum und Uhrzeit wählen.";
+  const start = withTime(currentStart, draft.start);
+  if (start === null) errors.start = "Bitte eine Uhrzeit von 00:00 bis 23:59 eingeben.";
   const seedText = draft.seed.trim();
   const seed = Number(seedText);
   if (!/^\d+$/.test(seedText) || !Number.isSafeInteger(seed) || seed > SEED_MAX) {
@@ -113,7 +151,7 @@ export function SimulationSettingsForm({ settings, onStatus }: SimulationSetting
   const [saving, setSaving] = useState(false);
 
   const current = draft ?? draftOf(settings);
-  const { errors } = validateDraft(current);
+  const { errors } = validateDraft(current, settings.start_time);
   const startError = touched.start || submitted ? errors.start : undefined;
   const seedError = touched.seed || submitted ? errors.seed : undefined;
 
@@ -140,7 +178,7 @@ export function SimulationSettingsForm({ settings, onStatus }: SimulationSetting
   async function save(e: FormEvent): Promise<void> {
     e.preventDefault();
     setSubmitted(true);
-    const { update } = validateDraft(current);
+    const { update } = validateDraft(current, settings.start_time);
     if (!update) return;
     setSaving(true);
     try {
@@ -200,9 +238,16 @@ export function SimulationSettingsForm({ settings, onStatus }: SimulationSetting
         <div className="cond">
           <EditorLine cols={2}>
             <Field label="Startzeit" htmlFor="start-time" error={startError}>
+              {/* A text field with a 24-hour pick list: a native time input formats by the
+                  browser's locale ("06:00 AM"), this one always reads "06:00". */}
               <Input
                 id="start-time"
-                type="datetime-local"
+                type="text"
+                inputMode="numeric"
+                autoComplete="off"
+                placeholder="hh:mm"
+                maxLength={5}
+                list="start-time-choices"
                 value={current.start}
                 invalid={Boolean(startError)}
                 onChange={(e) => {
@@ -210,6 +255,11 @@ export function SimulationSettingsForm({ settings, onStatus }: SimulationSetting
                   edit({ start: e.target.value });
                 }}
               />
+              <datalist id="start-time-choices">
+                {START_TIME_CHOICES.map((t) => (
+                  <option key={t} value={t} />
+                ))}
+              </datalist>
             </Field>
             <Field label="Seed" htmlFor="seed" error={seedError}>
               <Input
