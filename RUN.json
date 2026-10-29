@@ -6,13 +6,82 @@
       "dir": "frontend",
       "stack": "web-vite",
       "kind": "static",
-      "install": [["npm", "ci"]],
-      "build": [["npm", "run", "build"]],
-      "test": [["npm", "test"]],
+      "install": [
+        [
+          "npm",
+          "ci"
+        ]
+      ],
+      "build": [
+        [
+          "npm",
+          "run",
+          "build"
+        ]
+      ],
+      "test": [
+        [
+          "npm",
+          "test"
+        ]
+      ],
       "serve_dir": "dist",
       "env": {
-        "VITE_API_BASE": { "dev": "${service:api.origin}" }
+        "VITE_API_BASE": {
+          "dev": "${service:api.origin}"
+        }
       }
+    },
+    {
+      "name": "api",
+      "dir": "backend",
+      "stack": "python",
+      "kind": "server",
+      "install": [
+        [
+          "${python}",
+          "-m",
+          "pip",
+          "install",
+          "-q",
+          "-r",
+          "requirements.txt"
+        ]
+      ],
+      "start": [
+        "${python}",
+        "-m",
+        "uvicorn",
+        "app.main:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "${PORT}"
+      ],
+      "port": 8000,
+      "port_env": "PORT",
+      "health": {
+        "path": "/api/health",
+        "expect_status": [
+          200
+        ]
+      },
+      "env": {
+        "SMARTHOME_DB_PATH": {
+          "dev": "data/smarthome.db"
+        },
+        "SMARTHOME_CORS_ORIGIN": {
+          "dev": "${service:web.origin}"
+        }
+      },
+      "test": [
+        [
+          "${python}",
+          "-m",
+          "pytest",
+          "-q"
+        ]
+      ]
     }
   ]
 }
