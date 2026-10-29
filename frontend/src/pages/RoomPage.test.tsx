@@ -146,6 +146,35 @@ describe("RoomPage", () => {
     await waitFor(() => expect(updateDevice).toHaveBeenCalledWith("wohnzimmer.licht", { brightness: 40 }));
   });
 
+  it("an off light at 0 % shows its slider at 0", () => {
+    const { container } = renderRoom("/raum/bad");
+    const panel = region(container, "control-licht");
+    const slider = within(panel).getByLabelText<HTMLInputElement>("Helligkeit in Prozent");
+    expect(slider.value).toBe("0");
+    expect(slider.style.getPropertyValue("--val")).toBe("0%");
+    expect(panel.querySelector("output")).toHaveTextContent("0%");
+  });
+
+  it("an off light keeping a stored brightness shows its slider at 0, matching the readout", () => {
+    // The backend's default light is {on: false, brightness: 100}.
+    const state = makeState();
+    state.devices = state.devices.map((d) => (d.id === "bad.licht" && d.kind === "light" ? { ...d, brightness: 100 } : d));
+    const { container } = renderRoom("/raum/bad", state);
+    const panel = region(container, "control-licht");
+    const slider = within(panel).getByLabelText<HTMLInputElement>("Helligkeit in Prozent");
+    expect(slider.value).toBe("0");
+    expect(slider.style.getPropertyValue("--val")).toBe("0%");
+    expect(panel.querySelector("output")).toHaveTextContent("0%");
+  });
+
+  it("moving the slider of an off light switches it on at that brightness", async () => {
+    const { container } = renderRoom("/raum/bad");
+    const slider = within(region(container, "control-licht")).getByLabelText<HTMLInputElement>("Helligkeit in Prozent");
+    fireEvent.change(slider, { target: { value: "40" } });
+    expect(slider.value).toBe("40");
+    await waitFor(() => expect(updateDevice).toHaveBeenCalledWith("bad.licht", { brightness: 40, on: true }));
+  });
+
   it("switching the light off, the window open and the plug on sends their updates", async () => {
     const { container } = renderRoom("/raum/wohnzimmer");
     fireEvent.click(within(region(container, "control-licht")).getByRole("button", { name: /Licht/ }));
