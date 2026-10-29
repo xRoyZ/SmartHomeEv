@@ -12,6 +12,7 @@ from app import db
 from app.engine import Simulation
 from app.sim.state import Settings, build_initial_state
 from app.store import automations as automations_store
+from app.store import thresholds as thresholds_store
 
 
 @pytest.fixture
@@ -27,8 +28,9 @@ def _new_sim(settings: Settings, connections: list[sqlite3.Connection]) -> Simul
     db.init_schema(conn)
     connections.append(conn)
     sim = Simulation(settings, conn)
-    # As at startup: the stored (default) automations are part of the state.
+    # The same start path as the app's lifespan: stored automations and thresholds.
     automations_store.load(sim)
+    thresholds_store.load(sim)
     return sim
 
 
