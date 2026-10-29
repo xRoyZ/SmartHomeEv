@@ -101,6 +101,12 @@ main { animation: enter 420ms var(--ease) both; }
 .nav a[aria-current="page"]:active { background: var(--ink-2); color: var(--ground); }
 .header-end { margin-left: auto; display: flex; align-items: center; gap: var(--s-2); }
 .clock-chip { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: var(--fs-small); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+/* The connection icon leads the clock chip in place of its clock icon, so the
+   header end needs no more room than the design's clock chip + alert badge. */
+.header-live { display: inline-flex; align-items: center; gap: 8px; }
+.header-live .tag .icon { width: 20px; height: 20px; }
+.header-live .clock-chip > .icon { display: none; }
+.clock-chip, .badge-alarm { white-space: nowrap; }
 .badge-alarm {
   display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 var(--s-3);
   border-radius: var(--r-pill); background: var(--alarm); color: var(--on-alarm);
@@ -469,6 +475,9 @@ main { animation: enter 420ms var(--ease) both; }
   .roof { margin-right: 0; }
 }
 @media (max-width: 960px) {
+  /* One column once the cells stack: twelve tracks keep eleven gutters
+     (11 x 48px = 528px in a .main-split), which alone are wider than a phone. */
+  .grid { grid-template-columns: minmax(0, 1fr); }
   .span-3, .span-4, .span-5, .span-7, .span-8 { grid-column: 1 / -1; }
   .main-split { row-gap: var(--s-6); }
   .editor-line { grid-template-columns: minmax(0, 1fr) 84px minmax(0, 1fr); }

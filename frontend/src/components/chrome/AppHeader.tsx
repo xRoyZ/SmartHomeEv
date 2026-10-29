@@ -65,9 +65,19 @@ function AlertBadge({ count, known }: { count: number; known: boolean }) {
   );
 }
 
-/** Live/offline marker of the WebSocket connection. */
+/**
+ * Live/offline marker of the WebSocket connection. The approved header
+ * (design/mockups/alarme.html:24) holds only the clock chip and the alert badge
+ * at its end, so on a laptop the marker is just an icon that leads the clock
+ * chip in place of the chip's own clock icon (`.header-live`): the header then
+ * needs no more room than the design's and stays on one line at 1280px, paused
+ * or not. The word is read out by screen readers and shown as the tooltip; a
+ * lost connection is also spelled out by the frame's connection notice, and on
+ * a phone (where the header has its own rows) next to the icon.
+ */
 function ConnectionState({ connected, compact }: { connected: boolean; compact: boolean }) {
   const text = connected ? "Live" : "Getrennt";
+  const iconOnly = connected || !compact;
   return (
     <span
       className={cx("tag", !connected && "tag--alarm")}
@@ -77,7 +87,7 @@ function ConnectionState({ connected, compact }: { connected: boolean; compact: 
       title={connected ? "Mit der Simulation verbunden" : "Keine Verbindung zur Simulation"}
     >
       <Icon name={connected ? "wifi" : "wifi-off"} />
-      <span className={compact && connected ? "sr-only" : undefined}>{text}</span>
+      <span className={iconOnly ? "sr-only" : undefined}>{text}</span>
     </span>
   );
 }
@@ -101,8 +111,10 @@ export function AppHeader({ state, connected }: AppHeaderProps) {
         </span>
         <MainNav />
         <div className="header-end">
-          <ConnectionState connected={connected} compact={isPhone} />
-          <ClockChip clock={clock} />
+          <span className="header-live">
+            <ConnectionState connected={connected} compact={isPhone} />
+            <ClockChip clock={clock} />
+          </span>
           {isPhone && (
             // The design hides .clock-chip below 720px; the phone keeps the
             // simulation time as a compact readout so it stays visible on every page.
