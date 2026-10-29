@@ -4,7 +4,12 @@ import { cx } from "./Button";
 export interface SwitchProps {
   checked: boolean;
   onChange: (next: boolean) => void;
-  /** Accessible name, rendered as sr-only text inside the switch. */
+  /**
+   * Accessible name, set as `aria-label` on the switch exactly like the design's
+   * switch (design/mockups/automationen.html:79). The button carries no text node,
+   * so no label can render in the track colour; on/off is shown by the track and
+   * thumb via `aria-checked`, and as text only through `whenOn` / `whenOff`.
+   */
   label: string;
   /** Visible state text next to the switch while on / off (e.g. "an" / "aus"). */
   whenOn?: ReactNode;
@@ -31,13 +36,12 @@ export function Switch({ checked, onChange, label, whenOn, whenOff, disabled = f
       aria-disabled={disabled || undefined}
       aria-describedby={showHint ? hintId : undefined}
       disabled={disabled}
+      aria-label={label}
       className={cx("switch", className)}
       onClick={() => {
         if (!disabled) onChange(!checked);
       }}
-    >
-      <span className="sr-only">{label}</span>
-    </button>
+    />
   );
   if (!hasText && !showHint) return control;
   return (
