@@ -11,6 +11,7 @@ import pytest
 from app import db
 from app.engine import Simulation
 from app.sim.state import Settings, build_initial_state
+from app.store import automations as automations_store
 
 
 @pytest.fixture
@@ -25,7 +26,10 @@ def _new_sim(settings: Settings, connections: list[sqlite3.Connection]) -> Simul
     conn = db.connect(":memory:")
     db.init_schema(conn)
     connections.append(conn)
-    return Simulation(settings, conn)
+    sim = Simulation(settings, conn)
+    # As at startup: the stored (default) automations are part of the state.
+    automations_store.load(sim)
+    return sim
 
 
 def _device(sim: Simulation, device_id: str):
