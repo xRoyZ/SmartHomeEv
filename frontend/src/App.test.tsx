@@ -1,5 +1,5 @@
 import { act, cleanup, render, screen, within } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ApiError, apiBase, updateDevice, wsUrl } from "./api/client";
 import { AppRoutes } from "./App";
@@ -34,11 +34,17 @@ function makeState(simTime: string): SimState {
   };
 }
 
+function LocationProbe() {
+  const location = useLocation();
+  return <span data-testid="location">{location.pathname}</span>;
+}
+
 function renderAt(path: string, connected: boolean, state: SimState | null = null) {
   return render(
     <SimStateContext.Provider value={{ state, connected }}>
       <MemoryRouter initialEntries={[path]}>
         <AppRoutes />
+        <LocationProbe />
       </MemoryRouter>
     </SimStateContext.Provider>,
   );
@@ -49,9 +55,9 @@ describe("routes", () => {
     ["/", "overview"],
     ["/raum/kueche", "room"],
     ["/automationen", "automations"],
-    ["/warnungen", "alerts"],
+    ["/alarme", "alerts"],
     ["/verlauf", "history"],
-    ["/einstellungen", "settings"],
+    ["/simulation", "settings"],
   ];
 
   it.each(routes)("%s renders its page inside AppFrame", (path, page) => {
@@ -59,6 +65,29 @@ describe("routes", () => {
     const frame = screen.getByTestId("app-frame");
     expect(frame.querySelector(`[data-page="${page}"]`)).not.toBeNull();
     expect(container.querySelectorAll("[data-page]")).toHaveLength(1);
+  });
+
+  it.each([
+    ["/warnungen", "/alarme", "alerts", "Alarme"],
+    ["/einstellungen", "/simulation", "settings", "Simulation"],
+  ])("%s redirects to %s and marks its nav entry current", (oldPath, newPath, page, navLabel) => {
+    renderAt(oldPath, true, makeState("2026-01-14T07:42:00"));
+    expect(screen.getByTestId("location")).toHaveTextContent(newPath);
+    expect(screen.getByTestId("app-frame").querySelector(`[data-page="${page}"]`)).not.toBeNull();
+    const nav = screen.getByRole("navigation", { name: "Hauptnavigation" });
+    const link = within(nav).getByRole("link", { name: navLabel });
+    expect(link).toHaveAttribute("href", newPath);
+    expect(link).toHaveAttribute("aria-current", "page");
+  });
+
+  it("the header alert badge leads to /alarme", () => {
+    renderAt("/", true, makeState("2026-01-14T07:42:00"));
+    const hrefs = within(screen.getByTestId("app-frame"))
+      .getAllByRole("link")
+      .map((l) => l.getAttribute("href"));
+    expect(hrefs).toContain("/alarme");
+    expect(hrefs).not.toContain("/warnungen");
+    expect(hrefs).not.toContain("/einstellungen");
   });
 
   it("shows the disconnected notice only while not connected", () => {

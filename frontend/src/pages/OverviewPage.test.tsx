@@ -158,7 +158,7 @@ describe("OverviewPage", () => {
     expect(within(plan()).getByRole("link", { name: /Bad/ })).not.toHaveClass("is-alarm");
 
     const alerts = document.querySelector('[data-od-id="active-alerts"]') as HTMLElement;
-    expect(within(alerts).getByRole("link", { name: "Alle Alarme" })).toHaveAttribute("href", "/warnungen");
+    expect(within(alerts).getByRole("link", { name: "Alle Alarme" })).toHaveAttribute("href", "/alarme");
     fireEvent.click(within(alerts).getByRole("button", { name: "Bestätigen" }));
     await waitFor(() => expect(acknowledgeAlert).toHaveBeenCalledWith("co2_hoch:kinderzimmer"));
   });
